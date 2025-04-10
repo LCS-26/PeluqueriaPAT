@@ -1,8 +1,10 @@
 package com.pat.peluqueria;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class ConfiguracionSeguridad {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,9 +41,9 @@ public class ConfiguracionSeguridad {
     public SecurityFilterChain configuracion(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/a").hasRole("USER")
-                        .requestMatchers("/b").hasRole("USER")
-                        .requestMatchers("/c").hasRole("USER")
+                        .requestMatchers("/peluquero").hasRole("USER")
+                        .requestMatchers("/encargado").hasRole("USER")
+                        .requestMatchers("/cliente").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
@@ -55,6 +60,11 @@ public class ConfiguracionSeguridad {
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
     }
 }
 
