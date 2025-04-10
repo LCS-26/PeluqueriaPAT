@@ -36,15 +36,15 @@ public class ConfiguracionSeguridad {
     public SecurityFilterChain configuracion(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/foro").hasRole("USER")
-                        .requestMatchers("/foro").hasRole("USER")
-                        .requestMatchers("/foro").hasRole("USER")
+                        .requestMatchers("/a").hasRole("USER")
+                        .requestMatchers("/b").hasRole("USER")
+                        .requestMatchers("/c").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .formLogin(form -> form
                         //.loginPage("/login")
-                        .defaultSuccessUrl("/foro", true)
+                        .defaultSuccessUrl("/index", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
