@@ -8,8 +8,16 @@
 </head>
 
 <body>
-<h2>Elige la hora</h2>
-aqui va la tabla
+
+<h2>Elige al peluquero</h2>
+<form>
+    <select oninput="actualizarTabla(this.value)">
+        <option value="1234">Lucas</option>
+        <option value="2345">Oscar</option>
+        <option value="3456">Eva</option>
+    </select>
+</form>
+
 <form>
     <fieldset>
         <div>
@@ -38,7 +46,7 @@ aqui va la tabla
         </li>
 
         <li>
-            <a id = "encargado" href = "pelquero.html">Encargad@</a>
+            <a id = "encargado" href = "encargado.html">Encargad@</a>
         </li>
     </ul>
 </aside>
@@ -77,4 +85,5 @@ aqui va la tabla
     </div>
 
 </footer>
+<script src = "script.js"></script>
 </body>
