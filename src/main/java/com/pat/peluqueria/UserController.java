@@ -18,18 +18,18 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}/change-password")
-    public ResponseEntity<User> changePassword(@PathVariable Long id, @RequestBody String newPassword) {
-        User updatedUser = userService.changePassword(id, newPassword);
+    @PutMapping("/{username}/change-password")
+    public ResponseEntity<User> changePassword(@PathVariable String username, @RequestBody String newPassword) {
+        User updatedUser = userService.changePassword(username, newPassword);
         if (updatedUser == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
