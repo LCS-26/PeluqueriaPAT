@@ -5,37 +5,107 @@
 </head>
 
 <body>
+
+
 <h2>Ver horas</h2>
 aqui va la tabla
-<h2>gestiones</h2>
-<ul>
-    <li>
-        <a href = "gestionClientes.html">gestionar clientes</a>
-    </li>
 
-    <li>
-        <a href = "gestionTrabajadores.html">gestionar trabajadores</a>
-    </li>
-</ul>
+<h2>Clientes</h2>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>hora</th>
+            <th>peluquer@</th>
+            <th>cliente</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<h2>Editar informacion</h2>
+<form>
+    <fieldset>
+        <h3>Editar informacion personal</h3>
+
+        <div>
+            <label>Escoger rol</label>
+            <select>
+                <option>Cliente</option>
+                <option>Peluqeuro</option>
+            </select>
+        </div>
+        <div>
+            <label>Introducir numero de telefono</label>
+            <input type="tel">
+        </div>
+
+        <h4>Nueva informacion</h4>
+        <div>
+            <label>editar teléfono</label>
+            <input type = "tel">
+        </div>
+        <div>
+            <label>editar nombre</label>
+            <input type = "text">
+        </div>
+        <div>
+            <label>editar apellido</label>
+            <input type = "text">
+        </div>
+
+    </fieldset>
+
+    <fieldset>
+        <h3>Editar cita de un cliente</h3>
+
+        <div>
+            <label>Introducir numero de telefono</label>
+            <input type = "tel">
+        </div>
+        <h4>Elegir accion</h4>
+        <div>
+            <select>
+                <option>Cambiar hora</option>
+                <option>Cambiar peluquer@</option>
+                <option>Cancelar cita</option>
+            </select>
+        </div>
+        <div>
+            <label>Nueva hora</label>
+            <select name="hora" id="hora">
+                <option value="09:30">09:30</option>
+                <option value="10:30">10:30</option>
+                <option value="11:30">11:30</option>
+                <option value="12:30">12:30</option>
+                <option value="13:30">13:30</option>
+                <option value="14:30">14:30</option>
+                <option value="15:30">15:30</option>
+            </select>
+
+        </div>
+        <div>
+            <label>Nuevo peluquero</label>
+            <p>Se mete la lista de peluqueros</p>
+        </div>
+    </fieldset>
+</form>
 
 <aside>
-    <h2>Tu informacion</h2>
     <ul>
         <li>
-            nombre:
+            <a id = "cliente_no_vip" href = "index.html">cliente no vip</a>
         </li>
 
         <li>
-            apellidos:
+            <a id = "cliente" href = "cliente.html">Cliente vip</a>
         </li>
 
         <li>
-            contacto:
+            <a id = "peluquero" href = "pelquero.html">Peluquer@</a>
         </li>
 
-        <li>
-            proximas citas:
-        </li>
+
     </ul>
 </aside>
 
@@ -52,4 +122,5 @@ aqui va la tabla
     </div>
 
 </footer>
+<script src = "script.js"></script>
 </body>
