@@ -6,13 +6,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SSR {
 
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
+    @GetMapping("/index")
+    public String showIndexPage() {
+        return "index";
     }
 
-    @GetMapping("/foro")
-    public String showForoPage() {
-        return "foro";
+    @GetMapping("/cliente")
+    public String showClientePage() {
+        return "cliente";
+    }
+
+    @GetMapping("/encargado")
+    public String showEncargadoPage() {
+        return "encargado";
+    }
+
+    @GetMapping("/peluquero")
+    public String showPeluqueroPage() {
+        return "peluquero";
     }
 }
