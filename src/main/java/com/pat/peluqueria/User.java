@@ -2,6 +2,9 @@ package com.pat.peluqueria;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "usuarios")
 public class User {
@@ -14,6 +17,10 @@ public class User {
     private String password;
     private String email;
 
+    @ElementCollection
+    private Set<String> roles = new HashSet<>();  // Roles del usuario
+
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -44,5 +51,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }
