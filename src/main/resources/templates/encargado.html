@@ -1,55 +1,100 @@
 <!DOCTYPE html>
 
 <head>
-
+    <title>Encargado</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"> <!-- codificacion -->
+    <meta name="viewport" content="width=device-width">
 </head>
 
 <body>
-    <h2>Ver horas</h2>
-    aqui va la tabla
-    <h2>gestiones</h2>
+<h2>Ver horas libres</h2>
+aqui va la tabla
+<h2>gestiones</h2>
+<ul>
+    <li>
+        <a href = "gestionClientes.html">gestionar clientes</a>
+    </li>
+
+    <li>
+        <a href = "gestionTrabajadores.html">gestionar trabajadores</a>
+    </li>
+</ul>
+
+<aside>
+    <h2>Tu informacion</h2>
     <ul>
         <li>
-            <a href = "gestionClientes.html">gestionar clientes</a>
+            nombre:
         </li>
 
         <li>
-            <a href = "gestionTrabajadores.html">gestionar trabajadores</a>
+            apellidos:
+        </li>
+
+        <li>
+            contacto:
+        </li>
+
+        <li>
+            proximas citas:
         </li>
     </ul>
+</aside>
 
-    <aside>
-        <h2>Tu informacion</h2>
-        <ul>
-            <li>
-                nombre:
-            </li>
+<h2>Clientes</h2>
+<table border = 1>
+    <thead>
+    <tr>
+        <th>hora</th>
+        <th>nombre</th>
+        <th>contacto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>hacer que js lo vaya creando</tr>
+    </tbody>
+</table>
 
-            <li>
-                apellidos:
-            </li>
+<h2>Peluqueros</h2>
+<table border = 1>
+    <thead>
+    <tr>
+        <th>hora</th>
+        <th>nombre</th>
+        <th>contacto</th>
+        <th>cliente</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>hacer que js lo vaya creando</tr>
+    </tbody>
+</table>
+<aside>
+    <ul>
+        <li>
+            <a id = "cliente no VIP" href = "index.html">Cliente</a>
+        </li>
 
-            <li>
-                contacto:
-            </li>
-            
-            <li>
-                proximas citas: 
-            </li>
-        </ul>
-    </aside>
+        <li>
+            <a id = "cliente VIP" href = "cliente.html">Peluquer@</a>
+        </li>
 
-    <footer>
-        <h3>Contacta con el encargado</h3>
-        <div>
-            <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton">
-                Escribir un WhatsApp
-            </a>    
-        </div>
+        <li>
+            <a id = "peluquero" href = "pelquero.html">Peluquer@</a>
+        </li>
+    </ul>
+</aside>
+<footer>
+    <h3>Contacta con el encargado</h3>
+    <div>
+        <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton">
+            Escribir un WhatsApp
+        </a>
+    </div>
+    <div>
+        <a href="tel:34655555555"> Llamar </a>
+    </div>
 
-        <div>
-            <a href="tel:34655555555"> Llamar </a>
-        </div>
-        
-    </footer>
+</footer>
 </body>
