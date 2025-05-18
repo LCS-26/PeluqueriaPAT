@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Cliente registrado</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"> <!-- codificacion -->
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+    <main>
+    <h1>Bienvenido de nuevo</h1>
+    <form>
+        <fieldset>
+            <div>
+                <label>Elige tu peluquer@</label>
+                <select oninput="generarTablaPeluqueroCliente(this.value)">
+                    <option value="" disabled selected>Elige un peluquer@</option>
+                    <option value="id_lucas">Lucas</option>
+                    <option value="id_oscar">Oscar</option>
+                    <option value="id_eva">Eva</option>
+                </select>
+            </div>
+
+            <div id="contenedor-tabla"></div>
+
+            <div>
+                <button type = "submit">Reservar cita</button>
+            </div>
+        </fieldset>
+
+    </form>
+    </main>
+    <aside>
+        <ul>
+            <li>
+                <h3>Accede como:</h3>
+            </li>
+            <li>
+                <a id = "cliente no vip" href = "index.html">Cliente no VIP</a>
+            </li>
+
+            <li>
+                <a id = "peluquero" href = "peluquero.html">Peluquer@</a>
+            </li>
+
+            <li>
+                <a id = "encargado" href = "encargado.html">Encargad@</a>
+            </li> <br><br><br><br>
+            <h3>Tu informacion:</h3>
+             <li>
+                nombre:
+            </li>
+
+            <li>
+                apellidos:
+            </li>
+
+            <li>
+                contacto:
+            </li>
+
+            <li>
+                proximas citas:
+            </li>
+        </ul>
+
+    </aside>
+
+
+    <footer>
+        <h3>Contacta con el encargado</h3>
+        <div>
+            <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton" target="_blank">
+                Escribir un WhatsApp
+            </a>
+        </div>
+
+        <div>
+            <a href="tel:34655555555"> Llamar </a>
+        </div>
+
+    </footer>
+    <script src = "script.js"></script>
+</body>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Cliente no VIP</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"> <!-- codificacion -->
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body onload = "generarTablaTodos()">
+    <main>
+    <h1>Reserva tu cita</h1>
+    <h2>Reserva una cita</h2>
+
+    <div id="contenedor-tabla-index"></div>
+
+
+    <form>
+        <fieldset text = "informacion de contacto">
+            
+            <div>
+                <label>Introduce tu numero: </label>
+                <input type = "tel" required>
+            </div>
+            <div>
+                <label>Introduce tu nombre: </label>
+                <input type = "text" required>
+            </div>
+            <div>
+                <label>Introduce tus apellidos: </label>
+                <input type = "text" required>
+            </div>
+            <div>
+                <button type = "submit">Reservar cita</button>
+            </div>
+        </fieldset>
+
+    </form>
+
+    </main>
+
+    
+    <aside>
+        
+        <ul>
+            <li>
+                <h3>Accede como:</h3>
+            </li>
+            <li>
+                <a id = "cliente" href = "cliente.html">Cliente VIP</a>
+            </li>
+    
+            <li>
+                <a id = "peluquero" href = "peluquero.html">Peluquer@</a>
+            </li>
+    
+            <li>
+                <a id = "encargado" href = "encargado.html">Encargad@</a>
+            </li>
+        </ul>
+    </aside>
+
+
+    <footer>
+        <h3>Contacta con el encargado</h3>
+        <div>
+            <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton" target="_blank">
+                Escribir un WhatsApp
+            </a>
+        </div>
+
+        <div>
+            <a href="tel:34652336609"> Llamar </a>
+        </div>
+
+    </footer>
+    <script src = "script.js"></script>
+</body>
+

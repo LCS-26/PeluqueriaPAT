@@ -1,0 +1,109 @@
+table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        padding: 0;
+        text-align: center;
+    }
+
+    button#boton_tabla {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        font-size: 14px;
+        display: block;
+    }
+
+    button#boton_tabla:hover {
+        background-color: #ccc;
+    }
+.boton_tabla.selected {
+    background-color: #4caf50;  /* verde para seleccionado */
+    color: white;
+    font-weight: bold;
+}
+
+header {
+        width: 100%;
+        height: 60px;
+
+        z-index: 0;
+        border-bottom: 1px solid #383838;
+        color: #FFFFFF !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+}
+body {
+        margin: 0;
+
+        z-index: 0;
+        height: auto;
+        width: 100%;
+}
+aside {
+    
+    width: 215px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #f7bc8c;
+    color: black;
+    z-index: 999;
+
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f7bc8c;
+    text-align: center;
+    padding: 10px 20px;
+    
+    z-index: 1000;
+
+}
+
+
+main {
+    /* Deja espacio al contenido respecto al aside, header y footer */
+    margin-top: 60px;         /* altura del header */
+    margin-left: 215px;       /* ancho del aside */
+    
+    /* Espacio interno adaptable al tamaño de pantalla */
+    padding: clamp(10px, 2vh, 30px) clamp(15px, 4vw, 60px); /* top/bottom, left/right */
+
+    /* Deja espacio debajo para que el contenido no quede debajo del footer */
+    padding-bottom: 150px;     /* si el footer mide aprox 50–60px */
+    
+    box-sizing: border-box;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+a:hover {
+    color: #ffcc70; /* o un color vibrante tipo dorado */
+
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+ul {
+    list-style: none;
+}
+
+

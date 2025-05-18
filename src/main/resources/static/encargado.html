@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Encargad@</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"> <!-- codificacion -->
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+    <main>
+    <h1>Gestionemos</h1>
+
+    
+
+    <h2>Clientes</h2>
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>día</th>
+                    <th>hora</th>
+                    <th>peluquer@</th>
+                    <th>cliente</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <h2>Editar informacion</h2>
+    <form>
+        <fieldset>
+            <h3>Editar informacion personal</h3>
+
+            <div>
+                <label>Escoger rol</label>
+                <select>
+                    <option>Cliente</option>
+                    <option>Peluquero</option>
+                </select>
+            </div>
+            <div>
+                <label>Introducir numero de telefono actual</label>
+                <input type="tel">
+            </div>
+            
+            <h4>Nueva informacion</h4>
+            <div>
+                <label>editar teléfono</label>
+                <input type = "tel">
+            </div>
+            <div>
+                <label>editar nombre</label>
+                <input type = "text">
+            </div>
+            <div>
+                <label>editar apellido</label>
+                <input type = "text">
+            </div>
+
+            <div>
+                <button type="submit" onsubmit="actualizar_informacion_personal">Actualizar</button>
+            </div>
+            
+        </fieldset>
+
+        <fieldset>
+            <h3>Editar cita de un cliente</h3>
+            
+            <div>
+                <label>Introducir numero de telefono</label>
+                <input type = "tel">
+            </div>
+            <h4>Elegir accion</h4>
+            <div>
+                <select>
+                    <option>Cambiar hora</option>
+                    <option>Cambiar peluquer@</option>
+                    <option>Cancelar cita</option>
+                </select>
+            </div>
+            <div>
+                <label>Nueva hora</label>
+                <select name="hora" id="hora">
+                    <option value="09:30">09:30</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:30">15:30</option>
+                </select>
+            
+            </div>
+            <div>
+                <label>Nuevo peluquero</label>
+                <select name="peluquero" id="pelquero">
+                    <option value="" disabled selected>Elige un peluquer@</option>
+                    <option value="id_lucas">Lucas</option>
+                    <option value="id_oscar">Oscar</option>
+                    <option value="id_eva">Eva</option>
+                </select>
+                
+            </div>
+
+            <div>
+                <button type="submit" onsubmit="actualizar_cita">Actualizar</button>
+            </div>
+        </fieldset>
+    </form>
+    </main>
+
+    <aside>
+        <ul>
+            <li>
+                <h3>Accede como:</h3>
+            </li>
+            <li>
+                <a id = "index" href = "index.html">Cliente no VIP</a>
+            </li>
+            <li>
+                <a id = "cliente" href = "cliente.html">Cliente VIP</a>
+            </li>
+    
+            <li>
+                <a id = "peluquero" href = "peluquero.html">Peluquer@</a>
+            </li>
+    
+
+        </ul>
+    </aside>
+
+    <footer>
+        <h3>Contacta con el encargado</h3>
+        <div>
+            <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton" target="_blank">
+                Escribir un WhatsApp
+            </a>
+        </div>
+
+        <div>
+            <a href="tel:34655555555"> Llamar </a>
+        </div>
+
+    </footer>
+    <script src = "script.js"></script>
+</body>

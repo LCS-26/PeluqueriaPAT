@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Peluquer@</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8"> <!-- codificacion -->
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body onload = "generarTablaPeluqueroPeluquero(id_peluquero)">
+    <main>
+    <h1>¿Listo para patpeluquear?</h1>
+    <h2>Cuando trabajas</h2>
+    <div id="contenedor-tabla"></div>
+</main>
+    <aside>
+        <ul>
+            <li>
+                <h3>Accede como:</h3>
+            </li>
+            <li>
+                <a id = "cliente no VIP" href = "index.html">Cliente no vip</a>
+            </li>
+
+            <li>
+                <a id = "cliente VIP" href = "cliente.html">cliente VIP</a>
+            </li>
+
+            <li>
+                <a id = "encargado" href = "encargado.html">Encargad@</a>
+            </li>
+        </ul>
+    </aside>
+
+    <footer>
+        <h3>Contacta con el encargado</h3>
+        <div>
+            <a id="contacto" href="https://api.whatsapp.com/send?phone=34655555555" class="whatsapp-boton" target="_blank">
+                Escribir un WhatsApp
+            </a>
+        </div>
+
+        <div>
+            <a href="tel:34655555555"> Llamar </a>
+        </div>
+
+    </footer>
+    <script src = "script.js"></script>
+</body>
