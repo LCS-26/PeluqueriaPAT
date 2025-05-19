@@ -1,6 +1,7 @@
 package com.pat.peluqueria.controller;
 
 
+import com.pat.peluqueria.entity.AppCita;
 import com.pat.peluqueria.entity.AppUser;
 import com.pat.peluqueria.entity.Token;
 import com.pat.peluqueria.model.LoginRequest;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -86,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{Id}/appointments")
-    public List<Cita> getCitas(@PathVariable Long Id, @CookieValue(value = "session", required = true) String session) {
+    public List<AppCita> getCitas(@PathVariable Long Id, @CookieValue(value = "session", required = true) String session) {
         AppUser appUser = userService.authentication(session);
         if (appUser == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         return userService.getCitasporId(Id);
