@@ -20,8 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class UserController {
-    @Autowired
-    UserServiceInterface userService;
+    @Autowired UserServiceInterface userService;
 
     @PostMapping("/api/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -87,7 +86,4 @@ public class UserController {
     }
 
 
-
-
 }
-

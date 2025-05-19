@@ -16,30 +16,32 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Component
 public class SessionAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserServiceInterface userService;
+    UserServiceInterface userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-        String sessionId = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+        String sessionId = Optional.ofNullable(request.getCookies())
+                .map(Arrays::stream)
+                .orElse(Stream.empty())
                 .filter(c -> "session".equals(c.getName()))
-                .findFirst()
                 .map(Cookie::getValue)
+                .findFirst()
                 .orElse(null);
 
         if (sessionId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             AppUser user = userService.authentication(sessionId);
             if (user != null) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        user, null, user.getAuthorities());
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
