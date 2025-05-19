@@ -85,5 +85,14 @@ public class UserController {
         userService.delete(appUser);
     }
 
+    @GetMapping("/api/users/{Id}/appointments")
+    public List<Cita> getCitas(@PathVariable Long Id, @CookieValue(value = "session", required = true) String session) {
+        AppUser appUser = userService.authentication(session);
+        if (appUser == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        return userService.getCitasporId(Id);
+    }
+
+
+
 
 }

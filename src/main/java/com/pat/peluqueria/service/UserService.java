@@ -8,6 +8,7 @@ import com.pat.peluqueria.model.RegisterRequest;
 import com.pat.peluqueria.repository.AppUserRepository;
 import com.pat.peluqueria.repository.TokenRepository;
 import com.pat.peluqueria.util.Hashing;
+import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -117,5 +118,10 @@ public class UserService implements UserServiceInterface {
         if (appUser == null) return;
 
         appUserRepository.delete(appUser);
+    }
+
+    @Override
+    public List<Cita> getCitasporId(Long Id) {
+        return appUserRepository.findByUserIdOrPeluqueroId(Id, Id);
     }
 }
