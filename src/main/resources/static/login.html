@@ -7,8 +7,8 @@
   <script src="login.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
-<body onload="inicializar()">
-  <form onsubmit="login(event)">
+<body onload="inicializar()" id = "body_login">
+  <form onsubmit="login(event)" id = "form_login">
     <fieldset>
       <legend>🔐</legend>
       <label for="email">Correo electrónico:</label>
@@ -18,7 +18,7 @@
       <p id="aviso"></p>
       <hr>
       <input type="submit" value="Entrar">
-      <a href="registro.html">Registrarse</a>
+      <a href="registro.html" id = "a_registro">Registrarse</a>
     </fieldset>
   </form>
 </body>
