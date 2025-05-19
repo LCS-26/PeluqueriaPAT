@@ -14,14 +14,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           SessionAuthenticationFilter sessionFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // 💥 TODO permitido
-                );
+                        // Archivos públicos
+                        .requestMatchers("/", "/index.html", "/styles.css", "/script.js", "/imagenes/**").permitAll()
+                        // Páginas públicas
+                        .requestMatchers("/login.html", "/registro.html").permitAll()
+                        .requestMatchers("/login.js", "/registro.js").permitAll()
+                        // Endpoints abiertos
+                        .requestMatchers("/api/users", "/api/users/me/session").permitAll()
+                        // Páginas protegidas por rol
+                        .requestMatchers("/cliente.html").hasRole("CLIENTE")
+                        .requestMatchers("/peluquero.html").hasRole("PELUQUERO")
+                        .requestMatchers("/encargado.html").hasRole("ENCARGADO")
+                        .anyRequest().authenticated()
+                )
+                // En lugar de redirigir a login, devuelve 401 (el frontend gestiona todo)
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                )
+                .addFilterBefore(sessionFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -12,33 +12,42 @@ function mostrarAviso(texto, tipo) {
 
 const login = async (event) => {
   event.preventDefault();
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-const res = await fetch("/api/users/me/session", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password }),
-  credentials: "include"
-});
-
-  if (res.status === 201 or res.status === 302) {
-    const perfil = await fetch("/api/users/me", {
+  const res = await fetch("/api/users/me/session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
     credentials: "include"
+  });
+
+  if (res.status === 201) {
+    // Obtenemos el perfil tras login para ver el rol
+    const perfil = await fetch("/api/users/me", {
+      credentials: "include"
     });
-    const datos = await perfil.json();
-    switch (datos.role) {
+
+    if (perfil.ok) {
+      const datos = await perfil.json();
+      switch (datos.role) {
         case "CLIENTE":
-            window.location.href = "/cliente.html";
-            break;
-        case "ENCARGADO":
-            window.location.href = "/encargado.html";
-            break;
+          window.location.href = "/cliente.html";
+          break;
         case "PELUQUERO":
-            window.location.href = "/peluquero.html";
-        break;
+          window.location.href = "/peluquero.html";
+          break;
+        case "ENCARGADO":
+          window.location.href = "/encargado.html";
+          break;
+        default:
+          alert("Rol no reconocido");
+      }
+    } else {
+      alert("Error al cargar perfil");
     }
   } else {
-    alert("Login incorrecto");
+    alert("Credenciales incorrectas");
   }
 };

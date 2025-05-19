@@ -124,3 +124,21 @@ function editar_informacion_personal(){
 function editar_cita(){
     
 }
+
+async function irAPagina(event, url, rolRequerido) {
+  event.preventDefault(); // 👈 evita la navegación automática
+
+  const res = await fetch('/api/users/me', { credentials: 'include' });
+  if (!res.ok) {
+    window.location.href = '/login.html';
+    return;
+  }
+
+  const datos = await res.json();
+  if (datos.role !== rolRequerido) {
+    alert('⛔ No tienes permiso para acceder a esa página.');
+    return;
+  }
+
+  window.location.href = url;
+}
