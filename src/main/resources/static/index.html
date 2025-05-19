@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Cliente no VIP</title>
+    <title>Inicio</title>
     <link rel="stylesheet" href="styles.css">
     <meta charset="utf-8"> <!-- codificacion -->
     <meta name="viewport" content="width=device-width">
 </head>
 
-<body onload = "generarTablaTodos()">
-    <main>
-    <h1>Reserva tu cita</h1>
-    <h2>Reserva una cita</h2>
+<body>
+<main id="main_inicio">
+    <section class="hero">
+        <h1>Peluquerías PAT</h1>
+        <p>Cuidamos tu imagen con profesionalidad y cercanía.</p>
+    </section>
 
-    <div id="contenedor-tabla-index"></div>
+    <section class="servicios">
+        <h2>Servicios destacados</h2>
+        <div class="cards">
+            <article>
+                <img src="/imagenes/cortes.jpg" alt="Corte de pelo">
+                <h3>Cortes</h3>
+            </article>
+            <article>
+                <img src="/imagenes/peinados.jpg" alt="Peinados">
+                <h3>Peinados</h3>
+            </article>
+            <article>
+                <img src="/imagenes/masajes.jpg" alt="Masajes profesionales">
+                <h3>Masajes</h3>
+            </article>
+        </div>
+    </section>
 
 
-    <form>
-        <fieldset text = "informacion de contacto">
-            
-            <div>
-                <label>Introduce tu numero: </label>
-                <input type = "tel" required>
-            </div>
-            <div>
-                <label>Introduce tu nombre: </label>
-                <input type = "text" required>
-            </div>
-            <div>
-                <label>Introduce tus apellidos: </label>
-                <input type = "text" required>
-            </div>
-            <div>
-                <button type = "submit">Reservar cita</button>
-            </div>
-        </fieldset>
-
-    </form>
-
-    </main>
+    </section>
+</main>
 
     
     <aside>
