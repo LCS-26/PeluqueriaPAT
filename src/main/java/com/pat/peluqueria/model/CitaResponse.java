@@ -6,4 +6,5 @@ import java.time.LocalDateTime;
 public record CitaResponse(
     AppUser cliente,
     AppUser peluquero,
-    LocalDateTime fecha) {}
+    String dia,
+    String hora) {}
