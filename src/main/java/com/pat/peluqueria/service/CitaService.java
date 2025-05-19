@@ -19,7 +19,8 @@ public class CitaService implements CitaServiceInterface {
         return new ProfileResponse(
                 appCita.getCliente().getUsername(),
                 appCita.getCliente().getEmail(),
-                appCita.getFecha().toString()
+                appCita.getDia(),
+                appCita.getHora()
         );
     }
 

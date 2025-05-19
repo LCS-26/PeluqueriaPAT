@@ -1,5 +1,6 @@
 package com.pat.peluqueria.entity;
 
+import com.pat.peluqueria.model.Dia;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,16 +14,23 @@ public class AppCita {
     @Column(name = "id_cita")
     private Long id;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "cliente_id", nullable = false)
     private AppUser cliente;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "peluquero_id", nullable = false)
     private AppUser peluquero;
 
+    /*@Column(nullable = false)
+    private LocalDateTime fecha;*/
+
     @Column(nullable = false)
-    private LocalDateTime fecha;
+    @Enumerated(EnumType.STRING)
+    private String dia;
+
+    @Column(nullable = false)
+    private String hora;
 
     // Getters y setters
     public Long getId() {
@@ -49,12 +57,21 @@ public class AppCita {
         this.peluquero = peluquero;
     }
 
-    public LocalDateTime getFecha() {
+    /*public LocalDateTime getFecha() {
         return fecha;
     }
-
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }*/
+
+    public String getDia() {
+        return dia.name();
     }
+    public void setDia(Dia dia){this.dia = dia;}
+
+    public String getHora() {
+        return hora;
+    }
+    public void setHora(String hora){this.hora = hora;}
 }
 
