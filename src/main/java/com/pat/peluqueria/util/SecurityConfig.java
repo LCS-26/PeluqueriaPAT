@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.pat.peluqueria.model.Role.*;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -16,12 +18,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/styles.css", "/script.js", "/imagenes/**").permitAll() // permite acceder sin login
+
+                        // Rutas protegidas por rol
+                        .requestMatchers("/encargado.html").hasRole("ENCARGADO")
+                        .requestMatchers("/peluquero.html").hasRole("PELUQUERO")
+                        .requestMatchers("/cliente.html").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable) // opcional: desactiva formulario de login
-                .httpBasic(AbstractHttpConfigurer::disable) // opcional: desactiva autenticación básica
-                .csrf(AbstractHttpConfigurer::disable); // opcional: desactiva CSRF (solo si sabes lo que haces)
-
+                .httpBasic(AbstractHttpConfigurer::disable); // opcional: desactiva autenticación básica
         return http.build();
     }
 }
