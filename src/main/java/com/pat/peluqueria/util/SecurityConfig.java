@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.pat.peluqueria.model.Role.*;
 
@@ -14,19 +15,19 @@ import static com.pat.peluqueria.model.Role.*;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, SessionAuthenticationFilter sessionFilter) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/styles.css", "/script.js", "/imagenes/**").permitAll() // permite acceder sin login
-
-                        // Rutas protegidas por rol
+                        .requestMatchers("/", "/index.html", "/styles.css", "/script.js", "/imagenes/**").permitAll()
                         .requestMatchers("/encargado.html").hasRole("ENCARGADO")
                         .requestMatchers("/peluquero.html").hasRole("PELUQUERO")
                         .requestMatchers("/cliente.html").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
-                .formLogin(AbstractHttpConfigurer::disable) // opcional: desactiva formulario de login
-                .httpBasic(AbstractHttpConfigurer::disable); // opcional: desactiva autenticación básica
+                .addFilterBefore(sessionFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable);
+
         return http.build();
     }
 }
