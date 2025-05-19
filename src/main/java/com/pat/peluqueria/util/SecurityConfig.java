@@ -23,7 +23,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Archivos públicos
                         .requestMatchers("/", "/index.html", "/styles.css", "/script.js", "/imagenes/**").permitAll()
-                        // Páginas públicas
                         .requestMatchers("/login.html", "/registro.html").permitAll()
                         .requestMatchers("/login.js", "/registro.js").permitAll()
                         // Endpoints abiertos
@@ -34,7 +33,6 @@ public class SecurityConfig {
                         .requestMatchers("/encargado.html").hasRole("ENCARGADO")
                         .anyRequest().authenticated()
                 )
-                // En lugar de redirigir a login, devuelve 401 (el frontend gestiona todo)
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 )

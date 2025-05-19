@@ -126,7 +126,7 @@ function editar_cita(){
 }
 
 async function irAPagina(event, url, rolRequerido) {
-  event.preventDefault(); // 👈 evita la navegación automática
+  event.preventDefault();
 
   const res = await fetch('/api/users/me', { credentials: 'include' });
   if (!res.ok) {
@@ -141,4 +141,17 @@ async function irAPagina(event, url, rolRequerido) {
   }
 
   window.location.href = url;
+}
+
+async function logout() {
+  const res = await fetch('/api/users/me/session', {
+    method: 'DELETE',
+    credentials: 'include'
+  });
+
+  if (res.ok || res.status === 204) {
+    window.location.href = '/index.html'; // 👈 redirige a la página de inicio
+  } else {
+    alert('Error cerrando sesión');
+  }
 }
