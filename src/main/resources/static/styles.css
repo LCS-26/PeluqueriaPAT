@@ -107,3 +107,138 @@ ul {
 }
 
 
+/* para el login */
+/* Fondo general */
+#body_login {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #f7bc8c, #fce3d0);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Formulario principal */
+#form_login {
+  background-color: white;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  box-sizing: border-box;
+  animation: fadeIn 0.6s ease;
+}
+
+/* Título */
+#form_login legend {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #b35a1f;
+}
+
+/* Etiquetas */
+#form_login label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Campos de entrada */
+#form_login input[type="email"],
+#form_login input[type="password"] {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: #fffaf7;
+}
+
+#form_login input[type="email"]:focus,
+#form_login input[type="password"]:focus {
+  border-color: #f7bc8c;
+  outline: none;
+  background-color: #fff3ec;
+}
+
+/* Botón de enviar */
+#form_login input[type="submit"] {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #b35a1f;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+#form_login input[type="submit"]:hover {
+  background-color: #944813;
+}
+
+/* Enlace a registro */
+#a_registro {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #b35a1f;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+#a_registro:hover {
+  text-decoration: underline;
+}
+
+/* Línea divisoria */
+#form_login hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+}
+
+/* Aviso */
+#aviso {
+  margin-top: 0.8rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-weight: bold;
+  display: none;
+  text-align: center;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  display: block;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  display: block;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
