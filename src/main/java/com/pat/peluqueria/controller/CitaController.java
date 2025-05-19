@@ -3,10 +3,7 @@ package com.pat.peluqueria.controller;
 import com.pat.peluqueria.entity.AppCita;
 import com.pat.peluqueria.entity.AppUser;
 import com.pat.peluqueria.entity.Token;
-import com.pat.peluqueria.model.LoginRequest;
-import com.pat.peluqueria.model.ProfileRequest;
-import com.pat.peluqueria.model.ProfileResponse;
-import com.pat.peluqueria.model.RegisterRequest;
+import com.pat.peluqueria.model.*;
 import com.pat.peluqueria.repository.AppCitaRepository;
 import com.pat.peluqueria.repository.AppUserRepository;
 import com.pat.peluqueria.service.UserServiceInterface;
@@ -72,9 +69,11 @@ public class CitaController {
 
     @PostMapping("api/citas/me")
     @ResponseStatus()
-    public reserva(@Valid @RequestBody RegisterReserva reserva)
+    public void reserva(@Valid @RequestBody RegisterReserva reserva){
+        return;
+    }
 
-    @PutMapping("api/citas/me")
+    //@PutMapping("api/citas/me")
 
-    @DeleteMapping("api/citas/me")
+    //@DeleteMapping("api/citas/me")
 }

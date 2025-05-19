@@ -14,11 +14,11 @@ public class AppCita {
     @Column(name = "id_cita")
     private Long id;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private AppUser cliente;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "peluquero_id", nullable = false)
     private AppUser peluquero;
 
@@ -27,7 +27,7 @@ public class AppCita {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private String dia;
+    private Dia dia;
 
     @Column(nullable = false)
     private String hora;
@@ -65,9 +65,11 @@ public class AppCita {
     }*/
 
     public String getDia() {
-        return dia.name();
+        return dia.toString();
     }
-    public void setDia(Dia dia){this.dia = dia;}
+    public void setDia(Dia dia){
+        this.dia = dia;
+    }
 
     public String getHora() {
         return hora;

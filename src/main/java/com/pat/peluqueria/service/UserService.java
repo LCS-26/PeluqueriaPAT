@@ -1,5 +1,6 @@
 package com.pat.peluqueria.service;
 
+import com.pat.peluqueria.entity.AppCita;
 import com.pat.peluqueria.entity.AppUser;
 import com.pat.peluqueria.entity.Token;
 import com.pat.peluqueria.model.ProfileRequest;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -120,8 +122,8 @@ public class UserService implements UserServiceInterface {
         appUserRepository.delete(appUser);
     }
 
-    @Override
-    public List<Cita> getCitasporId(Long Id) {
-        return appUserRepository.findByUserIdOrPeluqueroId(Id, Id);
+    public List<AppCita> getCitasporId(Long Id) {
+        //return appUserRepository.findByUserIdOrPeluqueroId(Id, Id);
+        return null;
     }
 }

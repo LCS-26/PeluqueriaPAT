@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record RegisterReserva(
 
     @NotBlank
-    Long
+    Long id,
     @NotNull
-    Dia dia,
+    Dia dia
 ){}
