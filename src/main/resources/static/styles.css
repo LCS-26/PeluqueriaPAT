@@ -307,5 +307,10 @@ ul {
   text-align: center;
 }
 
+.boton_tabla.ocupado {
+    background-color: #bbb;
+    color: white;
+    cursor: not-allowed;
+}
 
 

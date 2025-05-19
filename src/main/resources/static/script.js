@@ -30,13 +30,18 @@ function generarTablaPeluqueroPeluquero(idPeluquero) {
 }
 
 // CLIENTE VIP – Ver disponibilidad del peluquero
-function generarTablaPeluqueroCliente(idPeluquero) {
+async function generarTablaPeluqueroCliente(idPeluquero) {
     if (!idPeluquero) {
         document.getElementById('contenedor-tabla').innerHTML = "";
         return;
     }
 
-    const horas = ["9.30", "10.30", "11.30", "12.30", "13.30", "14.30", "15.30"];
+    // Paso 1: obtener citas del backend
+    const response = await fetch(`/api/citas/peluquero/${idPeluquero}`);
+    const citas = response.ok ? await response.json() : [];
+
+    // Paso 2: crear tabla
+    const horas = ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"];
     const dias = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES"];
 
     let tabla = '<table border="1"><thead><tr><th>HORA</th>';
@@ -48,7 +53,12 @@ function generarTablaPeluqueroCliente(idPeluquero) {
     horas.forEach(hora => {
         tabla += `<tr><td>${hora}</td>`;
         dias.forEach((dia) => {
-            tabla += `<td><button class="boton_tabla" data-hora="${hora}" data-dia="${dia}">Añadir</button></td>`;
+            const ocupada = citas.some(cita => cita.dia === dia && cita.hora === hora);
+            if (ocupada) {
+                tabla += `<td><button class="boton_tabla ocupado" disabled>${hora}</button></td>`;
+            } else {
+                tabla += `<td><button class="boton_tabla" data-hora="${hora}" data-dia="${dia}">Añadir</button></td>`;
+            }
         });
         tabla += '</tr>';
     });
@@ -154,4 +164,81 @@ async function logout() {
   } else {
     alert('Error cerrando sesión');
   }
+}
+
+async function cargarInfoCliente(idCliente) {
+  try {
+    const response = await fetch(`/api/citas/cliente/${idCliente}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include"
+    });
+
+    if (!response.ok) {
+      console.error("Error al obtener citas del cliente");
+      return;
+    }
+
+    const citas = await response.json();
+    if (citas.length === 0) {
+      console.log("El cliente no tiene citas registradas");
+      return;
+    }
+
+    // Tomamos los datos del cliente de la primera cita
+    const cliente = citas[0].cliente;
+    document.getElementById("info-nombre").textContent = cliente.nombre || "-";
+    document.getElementById("info-apellidos").textContent = cliente.apellidos || "-";
+    document.getElementById("info-email").textContent = cliente.email || "-";
+
+    // Mostramos las próximas citas
+    const listaCitas = document.getElementById("info-citas");
+    listaCitas.innerHTML = ""; // limpiamos por si acaso
+
+    citas.forEach(cita => {
+      const li = document.createElement("li");
+      li.textContent = `${cita.dia} a las ${cita.hora}`;
+      listaCitas.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error("Error cargando info cliente:", error);
+  }
+}
+
+async function cargarPeluqueros() {
+  try {
+    const response = await fetch("/api/citas/peluqueros", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include"
+    });
+
+    if (!response.ok) {
+      console.error("Error al obtener peluqueros");
+      return;
+    }
+
+    const peluqueros = await response.json();
+    const select = document.getElementById("select-peluquero");
+
+    // Limpiar select excepto la primera opción
+    select.innerHTML = `<option value="" disabled selected>Elige un peluquer@</option>`;
+
+    peluqueros.forEach(peluquero => {
+      const option = document.createElement("option");
+      option.value = peluquero.id;
+      option.textContent = peluquero.nombre;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error cargando peluqueros:", error);
+  }
+}
+
+function inicializarPagina() {
+  cargarInfoCliente(3);
+  cargarPeluqueros();
+  // Puedes añadir más funciones aquí
+  // generarTablaPeluqueroCliente(1); ← ejemplo
 }

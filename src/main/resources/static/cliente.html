@@ -7,70 +7,45 @@
     <meta name="viewport" content="width=device-width">
 </head>
 
-<body>
+<body onload="inicializarPagina()">
+
     <main>
     <h1>Bienvenido de nuevo</h1>
-    <form>
-        <fieldset>
-            <div>
-                <label>Elige tu peluquer@</label>
-                <select oninput="generarTablaPeluqueroCliente(this.value)">
-                    <option value="" disabled selected>Elige un peluquer@</option>
-                    <option value="id_lucas">Lucas</option>
-                    <option value="id_oscar">Oscar</option>
-                    <option value="id_eva">Eva</option>
-                </select>
-            </div>
+        <form onsubmit="reservarCita(event)">
+            <fieldset>
+                <div>
+                    <label>Elige tu peluquer@</label>
+                    <select id="select-peluquero" oninput="generarTablaPeluqueroCliente(this.value)">
+                        <option value="" disabled selected>Elige un peluquer@</option>
+                        <!-- aquí se insertarán las opciones -->
+                    </select>
+                </div>
 
-            <div id="contenedor-tabla"></div>
+                <div id="contenedor-tabla"></div>
 
-            <div>
-                <button type = "submit">Reservar cita</button>
-            </div>
-        </fieldset>
-
-    </form>
+                <div>
+                    <button type="submit">Reservar cita</button>
+                </div>
+            </fieldset>
+        </form>
     </main>
     <aside>
         <ul>
-            <li>
-                <h3>Ir a:</h3>
-            </li>
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-            <li>
-                <a href="cliente.html" onclick="irAPagina(event, '/cliente.html', 'CLIENTE')">Cliente</a>
-            </li>
+            <li><h3>Ir a:</h3></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cliente.html" onclick="irAPagina(event, '/cliente.html', 'CLIENTE')">Cliente</a></li>
+            <li><a href="peluquero.html" onclick="irAPagina(event, '/peluquero.html', 'PELUQUERO')">Peluquero</a></li>
+            <li><a href="peluquero.html" onclick="irAPagina(event, '/encargado.html', 'ENCARGADO')">Encargado</a></li>
+            <li><a href="#" onclick="logout()">Cerrar sesión</a></li>
 
-            <li>
-                <a href="peluquero.html" onclick="irAPagina(event, '/peluquero.html', 'PELUQUERO')">Peluquero</a>
-            </li>
+            <br><br><br><br>
 
-            <li>
-                <a href="peluquero.html" onclick="irAPagina(event, '/encargado.html', 'ENCARGADO')">Encargado</a>
-            </li>
-            <li>
-                <a href="#" onclick="logout()">Cerrar sesión</a>
-            </li><br><br><br><br>
-            <h3>Tu informacion:</h3>
-             <li>
-                nombre:
-            </li>
-
-            <li>
-                apellidos:
-            </li>
-
-            <li>
-                contacto:
-            </li>
-
-            <li>
-                proximas citas:
-            </li>
+            <li><h3>Tu información:</h3></li>
+            <li>Nombre: <span id="info-nombre">–</span></li>
+            <li>Apellidos: <span id="info-apellidos">–</span></li>
+            <li>Contacto: <span id="info-email">–</span></li>
+            <li>Próximas citas: <ul id="info-citas"></ul></li>
         </ul>
-
     </aside>
 
 
