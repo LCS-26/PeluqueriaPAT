@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -66,6 +67,13 @@ public class AppUser implements UserDetails{
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<AppCita> citasComoCliente = new ArrayList<>();
+
+    @OneToMany(mappedBy = "peluquero")
+    private List<AppCita> citasComoPeluquero = new ArrayList<>();
+
 
     // Getters y setters
     public Long getId() {
