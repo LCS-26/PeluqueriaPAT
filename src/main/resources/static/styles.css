@@ -338,3 +338,17 @@ ul {
   background-color: #ffcccc;
   cursor: not-allowed;
 }
+
+.ocupado {
+  background-color: #f8d7da; /* rojo suave */
+  color: #721c24;            /* texto rojo oscuro */
+  font-weight: bold;
+  text-align: center;
+}
+
+.libre {
+  background-color: #d4edda; /* verde suave */
+  color: #155724;            /* texto verde oscuro */
+  font-weight: bold;
+  text-align: center;
+}
