@@ -63,6 +63,7 @@ public class UserService implements UserServiceInterface {
         if (appUser == null) return null;
 
         return new ProfileResponse(
+                appUser.getId(),
                 appUser.getUsername(),
                 appUser.getEmail(),
                 appUser.getRole()

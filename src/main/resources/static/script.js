@@ -166,43 +166,29 @@ async function logout() {
   }
 }
 
-async function cargarInfoCliente(idCliente) {
+async function cargarInfoClienteDesdeSession() {
   try {
-    const response = await fetch(`/api/citas/cliente/${idCliente}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch("/api/users/me", {
       credentials: "include"
     });
 
-    if (!response.ok) {
-      console.error("Error al obtener citas del cliente");
+    if (!res.ok) {
+      console.error("No se pudo obtener el usuario actual");
       return;
     }
 
-    const citas = await response.json();
-    if (citas.length === 0) {
-      console.log("El cliente no tiene citas registradas");
-      return;
-    }
+    const usuario = await res.json();
 
-    // Tomamos los datos del cliente de la primera cita
-    const cliente = citas[0].cliente;
-    document.getElementById("info-nombre").textContent = cliente.nombre || "-";
-    document.getElementById("info-apellidos").textContent = cliente.apellidos || "-";
-    document.getElementById("info-email").textContent = cliente.email || "-";
+    // ✅ Mostrar info directamente desde la sesión
+    document.getElementById("info-nombre").textContent = usuario.name || "-";
 
-    // Mostramos las próximas citas
-    const listaCitas = document.getElementById("info-citas");
-    listaCitas.innerHTML = ""; // limpiamos por si acaso
+    document.getElementById("info-email").textContent = usuario.email || "-";
 
-    citas.forEach(cita => {
-      const li = document.createElement("li");
-      li.textContent = `${cita.dia} a las ${cita.hora}`;
-      listaCitas.appendChild(li);
-    });
+    // 👇 Si quieres todavía cargar sus citas, puedes usar su id
+    cargarCitasDeCliente(usuario.id);
 
   } catch (error) {
-    console.error("Error cargando info cliente:", error);
+    console.error("Error cargando info del usuario:", error);
   }
 }
 
@@ -236,9 +222,7 @@ async function cargarPeluqueros() {
   }
 }
 
-function inicializarPagina() {
-  cargarInfoCliente(3);
-  cargarPeluqueros();
-  // Puedes añadir más funciones aquí
-  // generarTablaPeluqueroCliente(1); ← ejemplo
+async function inicializarPagina() {
+  await cargarInfoClienteDesdeSession(); // ✅ rellena nombre/email desde sesión
+  //await cargarPeluqueros();              // ✅ carga select
 }

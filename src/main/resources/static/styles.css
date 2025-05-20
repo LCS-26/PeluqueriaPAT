@@ -56,6 +56,9 @@ aside {
     background-color: #f7bc8c;
     color: black;
     z-index: 999;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 
 }
 
@@ -68,7 +71,6 @@ footer {
     background-color: #f7bc8c;
     text-align: center;
     padding: 10px 20px;
-    
     z-index: 1000;
 
 }

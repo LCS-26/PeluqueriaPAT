@@ -41,7 +41,7 @@ public class CitaController {
         return ResponseEntity.ok(citas);
     }
 
-    @GetMapping("api/citas/cliente/{id_cliente}")
+    @GetMapping("/api/citas/cliente/{id_cliente}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<AppCita>> getCitasPorCliente(@PathVariable("id_cliente") Long clienteId, @CookieValue(value = "session", required = true) String session) {
         Optional<AppUser> cliente = appUserRepository.findById(clienteId);

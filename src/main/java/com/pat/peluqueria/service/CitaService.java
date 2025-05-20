@@ -17,6 +17,7 @@ public class CitaService implements CitaServiceInterface {
         if (appCita == null) return null;
 
         return new ProfileResponse(
+                appCita.getCliente().getId(),
                 appCita.getCliente().getUsername(),
                 appCita.getCliente().getEmail(),
                 appCita.getCliente().getRole()

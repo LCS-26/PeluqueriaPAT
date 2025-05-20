@@ -43,6 +43,7 @@ public class UserController {
                 .httpOnly(true)
                 .path("/")
                 .sameSite("Strict")
+                .secure(false)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).header(HttpHeaders.SET_COOKIE, session.toString()).build();
     }
