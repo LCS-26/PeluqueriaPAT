@@ -64,10 +64,11 @@ async function generarTablaPeluqueroPeluquero(idPeluquero) {
       );
 
       if (ocupada) {
-        tabla += `<td><button class="boton_tabla ocupado" disabled>${hora}</button></td>`;
+        tabla += `<td class="ocupado">Ocupado</td>`;
       } else {
-        tabla += `<td><button class="boton_tabla" data-hora="${hora}" data-dia="${dia}">Añadir</button></td>`;
+        tabla += `<td class="libre">Libre</td>`;
       }
+
     });
     tabla += '</tr>';
   });
@@ -333,6 +334,7 @@ async function reservarCita(event) {
     if (response.ok) {
       alert("✅ Cita reservada con éxito");
       generarTablaPeluqueroCliente(peluqueroId); // refresca la tabla
+      await cargarInfoClienteDesdeSession();
     } else {
       alert("❌ Error al reservar la cita");
     }
@@ -390,4 +392,96 @@ async function actualizar_informacion_personal(){
         console.error("Error actualizando informacion", error);
     }
 }
+
+async function cargarCitasEncargado() {
+  try {
+    const res = await fetch("/api/citas/me/encargado", {
+      credentials: "include"
+    });
+
+    if (!res.ok) {
+      console.error("❌ No se pudieron cargar las citas");
+      return;
+    }
+
+    const citas = await res.json();
+    const cuerpoTabla = document.getElementById("tabla-citas-body");
+    cuerpoTabla.innerHTML = ""; // Limpiar la tabla
+
+    citas.forEach(cita => {
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${cita.id}</td> <!-- ID visible -->
+        <td>${cita.dia}</td>
+        <td>${cita.hora}</td>
+        <td>${cita.peluquero.name}</td>
+        <td>${cita.cliente.name}</td>
+      `;
+      cuerpoTabla.appendChild(fila);
+    });
+  } catch (error) {
+    console.error("Error técnico al cargar las citas:", error);
+  }
+}
+
+async function actualizar_informacion_personal(event) {
+  event.preventDefault();
+
+  const emailActual = document.getElementById("email-actual").value.trim();
+  const nuevoNombre = document.getElementById("nuevo-nombre").value.trim();
+
+  // 1) Traer lista de clientes
+  const res = await fetch("/api/users/me/encargado", { credentials: "include" });
+  const clientes = await res.json();
+  const cliente  = clientes.find(c => c.email === emailActual);
+
+  if (!cliente) {
+    return alert("❌ Cliente no encontrado");
+  }
+
+  // 2) Crear body con datos nuevos o actuales
+  const body = {
+    name:  nuevoNombre || cliente.name,
+  };
+
+  // 3) PUT a /api/users/{id}
+  const update = await fetch(`/api/users/${cliente.id}`, {
+    method:      "PUT",
+    credentials: "include",
+    headers:     { "Content-Type": "application/json" },
+    body:        JSON.stringify(body)
+  });
+
+  if (update.ok) {
+    alert("✅ Nombre y email actualizados");
+    await cargarCitasEncargado();
+
+  } else {
+    alert("❌ No se pudo actualizar");
+  }
+}
+
+
+async function cancelar_cita(event) {
+  event.preventDefault();
+
+  const idCita = document.getElementById("id-cita-cancelar").value;
+
+  try {
+    const res = await fetch(`/api/citas/me/${idCita}`, {
+      method: "DELETE",
+      credentials: "include"
+    });
+
+    if (res.ok) {
+      alert("✅ Cita cancelada correctamente.");
+      await cargarCitasEncargado();
+    } else {
+      alert("❌ No se pudo cancelar la cita.");
+    }
+  } catch (error) {
+    console.error("Error al cancelar la cita:", error);
+  }
+}
+
 

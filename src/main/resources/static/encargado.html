@@ -7,107 +7,71 @@
     <meta name="viewport" content="width=device-width">
 </head>
 
-<body>
+<body onload="cargarCitasEncargado()">
     <main>
     <h1>Gestionemos</h1>
 
     
 
     <h2>Clientes</h2>
-    <div>
-        <table border="1">
-            <thead>
+        <div>
+            <table border="1">
+                <thead>
                 <tr>
-                    <th>día</th>
-                    <th>hora</th>
-                    <th>peluquer@</th>
-                    <th>cliente</th>
+                    <th>ID</th> <!-- NUEVO -->
+                    <th>Día</th>
+                    <th>Hora</th>
+                    <th>Peluquer@</th>
+                    <th>Cliente</th>
                 </tr>
-            </thead>
-        </table>
-    </div>
+                </thead>
+                <tbody id="tabla-citas-body">
+                <!-- Aquí van las filas dinámicas -->
+                </tbody>
+            </table>
 
-    <h2>Editar información</h2>
-    <form>
-        <fieldset>
-            <h3>Editar informacion personal</h3>
+        </div>
 
-            <div>
-                <label>Escoger rol</label>
-                <select>
-                    <option>Cliente</option>
-                    <option>Peluquero</option>
-                </select>
-            </div>
-            <div>
-                <label>Introducir numero de telefono actual</label>
-                <input type="tel">
-            </div>
-            
-            <h4>Nueva información</h4>
-            <div>
-                <label>editar teléfono</label>
-                <input type = "tel">
-            </div>
-            <div>
-                <label>editar nombre</label>
-                <input type = "text">
-            </div>
-            <div>
-                <label>editar apellido</label>
-                <input type = "text">
-            </div>
 
-            <div>
-                <button type="submit" onsubmit="actualizar_informacion_personal">Actualizar</button>
-            </div>
-            
-        </fieldset>
+        <h2>Editar información</h2>
+        <h2>Editar información</h2>
 
-        <fieldset>
-            <h3>Editar cita de un cliente</h3>
-            
-            <div>
-                <label>Introducir numero de telefono</label>
-                <input type = "tel">
-            </div>
-            <h4>Elegir accion</h4>
-            <div>
-                <select>
-                    <option>Cambiar hora</option>
-                    <option>Cambiar peluquer@</option>
-                    <option>Cancelar cita</option>
-                </select>
-            </div>
-            <div>
-                <label>Nueva hora</label>
-                <select name="hora" id="hora">
-                    <option value="09:30">09:30</option>
-                    <option value="10:30">10:30</option>
-                    <option value="11:30">11:30</option>
-                    <option value="12:30">12:30</option>
-                    <option value="13:30">13:30</option>
-                    <option value="14:30">14:30</option>
-                    <option value="15:30">15:30</option>
-                </select>
-            
-            </div>
-            <div>
-                <label>Nuevo peluquero</label>
-                <select name="peluquero" id="pelquero">
-                    <option value="" disabled selected>Elige un peluquer@</option>
-                    <option value="id_lucas">Lucas</option>
-                    <option value="id_oscar">Oscar</option>
-                    <option value="id_eva">Eva</option>
-                </select>
-                
-            </div>
+        <!-- FORMULARIO 1: Modificar información personal -->
+        <form onsubmit="actualizar_informacion_personal(event)">
+            <fieldset>
+                <h3>Editar información personal del cliente</h3>
 
-            <div>
-                <button type="submit" onsubmit="actualizar_cita">Actualizar</button>
-            </div>
-        </fieldset>
-    </form>
+                <div>
+                    <label>Email actual del cliente</label>
+                    <input type="email" id="email-actual" required>
+                </div>
+
+                <div>
+                    <label>Nuevo nombre</label>
+                    <input type="text" id="nuevo-nombre">
+                </div>
+
+                <div>
+                    <button type="submit">Actualizar información</button>
+                </div>
+            </fieldset>
+        </form>
+
+        <!-- FORMULARIO 2: Cancelar cita -->
+        <form onsubmit="cancelar_cita(event)">
+            <fieldset>
+                <h3>Cancelar cita</h3>
+
+                <div>
+                    <label>ID de la cita a cancelar</label>
+                    <input type="number" id="id-cita-cancelar" required>
+                </div>
+
+                <div>
+                    <button type="submit" >Cancelar cita</button>
+                </div>
+            </fieldset>
+        </form>
     </main>
 
     <aside>
