@@ -352,5 +352,26 @@ async function cargarCitasDeCliente(idCliente) {
   } catch (error) {
     console.error("Error cargando citas del cliente:", error);
   }
+
+}
+
+async function actualizar_cita(){
+    try{
+
+    } catch (error){
+        console.log("Error actualizando la cita", error);
+    }
+
+}
+
+async function actualizar_informacion_personal(){
+    await cargarPeluqueros();
+    await cargarClientes();
+    try{
+
+
+    } catch (error){
+        console.error("Error actualizando informacion", error);
+    }
 }
 

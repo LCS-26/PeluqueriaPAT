@@ -2,10 +2,10 @@ package com.pat.peluqueria.controller;
 
 import com.pat.peluqueria.entity.AppCita;
 import com.pat.peluqueria.entity.AppUser;
-import com.pat.peluqueria.entity.Token;
 import com.pat.peluqueria.model.*;
 import com.pat.peluqueria.repository.AppCitaRepository;
 import com.pat.peluqueria.repository.AppUserRepository;
+import com.pat.peluqueria.service.CitaService;
 import com.pat.peluqueria.service.UserServiceInterface;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +27,8 @@ public class CitaController {
     AppUserRepository appUserRepository;
     @Autowired
     AppCitaRepository appCitaRepository;
+    @Autowired
+    CitaService citaService;
 
     @GetMapping("api/citas/peluquero/{id_peluquero}")
     @ResponseStatus(HttpStatus.OK)
@@ -97,5 +100,18 @@ public class CitaController {
         List<AppUser> peluqueros = appUserRepository.findByRole(Role.PELUQUERO);
         return ResponseEntity.ok(peluqueros);
     }
+
+    @PreAuthorize("hasRole('ENCARGADO')")
+    @GetMapping("api/citas/me/encargado")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AppCita> getCitas(@CookieValue(value = "session", required = true) String session){
+        List<AppCita> citas = (List<AppCita>) appCitaRepository.findAll(); //transformo a citas
+        if(citas.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No hay citas programadas");
+        }
+        return citas;
+    }
+
+
 
 }
