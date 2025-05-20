@@ -1,33 +1,81 @@
-var id_peluquero = "1234";
-// PELUQUERO – Ver horas a trabajar
-function generarTablaPeluqueroPeluquero(idPeluquero) {
-    if (!idPeluquero) {
-        document.getElementById('contenedor-tabla').innerHTML = "";
-        return;
+async function inicializarVistaPeluquero() {
+  try {
+    const res = await fetch("/api/users/me", {
+      credentials: "include"
+    });
+
+    if (!res.ok) {
+      console.error("Error al obtener peluquero actual");
+      return;
     }
 
-    const horas = ["9.30", "10.30", "11.30", "12.30", "13.30", "14.30", "15.30"];
-    const dias = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES"];
+    const usuario = await res.json();
 
-    let tabla = '<table border="1"><thead><tr><th>HORA</th>';
-    dias.forEach(dia => {
-        tabla += `<th>${dia}</th>`;
-    });
-    tabla += '</tr></thead><tbody>';
-
-    horas.forEach(hora => {
-        tabla += `<tr><td>${hora}</td>`;
-        dias.forEach((dia) => {
-            tabla += `<td><button class="boton_tabla" data-hora="${hora}" data-dia="${dia}">Añadir</button></td>`;
-        });
-        tabla += '</tr>';
-    });
-
-    tabla += '</tbody></table>';
-    document.getElementById('contenedor-tabla').innerHTML = tabla;
-
-    //activarSeleccion();
+    // Solo si es peluquero
+    if (usuario.role === "PELUQUERO") {
+      generarTablaPeluqueroPeluquero(usuario.id);
+    } else {
+      console.warn("Este usuario no es peluquero");
+    }
+  } catch (error) {
+    console.error("Error inicializando vista del peluquero:", error);
+  }
 }
+
+// PELUQUERO – Ver horas a trabajar
+async function generarTablaPeluqueroPeluquero(idPeluquero) {
+  if (!idPeluquero) {
+    document.getElementById('contenedor-tabla').innerHTML = "";
+    return;
+  }
+
+  // Obtenemos las citas del peluquero
+  let citas = [];
+  try {
+    const response = await fetch(`/api/citas/peluquero/${idPeluquero}`, {
+      credentials: "include"
+    });
+
+    if (response.ok) {
+      citas = await response.json();
+    } else {
+      console.warn("No se pudieron obtener las citas del peluquero");
+    }
+  } catch (error) {
+    console.error("Error al cargar citas del peluquero:", error);
+  }
+
+  // Definimos las horas y los días (sin tildes para evitar conflictos)
+  const horas = ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"];
+  const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
+
+  // Creamos la tabla
+  let tabla = '<table border="1"><thead><tr><th>HORA</th>';
+  dias.forEach(dia => {
+    tabla += `<th>${dia}</th>`;
+  });
+  tabla += '</tr></thead><tbody>';
+
+  horas.forEach(hora => {
+    tabla += `<tr><td>${hora}</td>`;
+    dias.forEach(dia => {
+      const ocupada = citas.some(cita =>
+        cita.dia === dia && cita.hora === hora
+      );
+
+      if (ocupada) {
+        tabla += `<td><button class="boton_tabla ocupado" disabled>${hora}</button></td>`;
+      } else {
+        tabla += `<td><button class="boton_tabla" data-hora="${hora}" data-dia="${dia}">Añadir</button></td>`;
+      }
+    });
+    tabla += '</tr>';
+  });
+
+  tabla += '</tbody></table>';
+  document.getElementById('contenedor-tabla').innerHTML = tabla;
+}
+
 
 // CLIENTE VIP – Ver disponibilidad del peluquero
 async function generarTablaPeluqueroCliente(idPeluquero) {
@@ -42,7 +90,7 @@ async function generarTablaPeluqueroCliente(idPeluquero) {
 
     // Paso 2: crear tabla
     const horas = ["9:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"];
-    const dias = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES"];
+    const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
 
     let tabla = '<table border="1"><thead><tr><th>HORA</th>';
     dias.forEach(dia => {
@@ -73,7 +121,7 @@ async function generarTablaPeluqueroCliente(idPeluquero) {
 function generarTablaTodos() {
     const contenedor = document.getElementById('contenedor-tabla-index');
 
-    const dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES'];
+    const dias = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'];
     const horas = ['9.30', '10.30', '11.30', '12.30', '13.30', '14.30', '15.30'];
 
     let tabla = '<table border="1"><thead><tr><th>HORA</th>';
@@ -226,3 +274,83 @@ async function inicializarPagina() {
   await cargarInfoClienteDesdeSession(); // ✅ rellena nombre/email desde sesión
   await cargarPeluqueros();              // ✅ carga select
 }
+
+async function reservarCita(event) {
+  event.preventDefault();
+
+  const botonSeleccionado = document.querySelector(".boton_tabla.selected");
+  const selectPeluquero = document.getElementById("select-peluquero");
+
+  if (!botonSeleccionado || !selectPeluquero.value) {
+    alert("Selecciona un peluquero y una hora");
+    return;
+  }
+
+  const dia = botonSeleccionado.dataset.dia;
+  const hora = botonSeleccionado.dataset.hora;
+  const peluqueroId = selectPeluquero.value;
+
+  // Obtener el cliente desde la sesión
+  const perfilRes = await fetch("/api/users/me", { credentials: "include" });
+  if (!perfilRes.ok) {
+    alert("No se ha podido obtener la sesión del cliente");
+    return;
+  }
+
+  const cliente = await perfilRes.json();
+
+  const cita = {
+    dia: dia,
+    hora: hora,
+    peluqueroId: parseInt(peluqueroId),
+    clienteId: cliente.id
+  };
+
+  try {
+    const response = await fetch("/api/citas/me", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(cita)
+    });
+
+    if (response.ok) {
+      alert("✅ Cita reservada con éxito");
+      generarTablaPeluqueroCliente(peluqueroId); // refresca la tabla
+    } else {
+      alert("❌ Error al reservar la cita");
+    }
+  } catch (error) {
+    console.error("Error enviando la cita:", error);
+    alert("❌ Error técnico al reservar la cita");
+  }
+}
+
+
+async function cargarCitasDeCliente(idCliente) {
+  try {
+    const res = await fetch(`/api/citas/cliente/${idCliente}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include"
+    });
+
+    if (!res.ok) {
+      console.warn("No se pudieron cargar las citas del cliente");
+      return;
+    }
+
+    const citas = await res.json();
+    const lista = document.getElementById("info-citas");
+    lista.innerHTML = ""; // Limpia antes
+
+    citas.forEach(cita => {
+      const li = document.createElement("li");
+      li.textContent = `${cita.dia}: ${cita.hora}`;
+      lista.appendChild(li);
+    });
+  } catch (error) {
+    console.error("Error cargando citas del cliente:", error);
+  }
+}
+

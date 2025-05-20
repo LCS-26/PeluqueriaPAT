@@ -67,11 +67,25 @@ public class CitaController {
         }
     }
 
-    @PostMapping("api/citas/me")
-    @ResponseStatus()
-    public void reserva(@Valid @RequestBody RegisterReserva reserva){
-        return;
+    @PostMapping("/api/citas/me")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reserva(@RequestBody RegisterReserva reserva) {
+        Optional<AppUser> peluquero = appUserRepository.findById(reserva.peluqueroId());
+        Optional<AppUser> cliente = appUserRepository.findById(reserva.clienteId());
+
+        if (peluquero.isEmpty() || cliente.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente o peluquero no encontrado");
+        }
+
+        AppCita cita = new AppCita();
+        cita.setDia(Dia.valueOf(reserva.dia()));
+        cita.setHora(reserva.hora());
+        cita.setPeluquero(peluquero.get());
+        cita.setCliente(cliente.get());
+
+        appCitaRepository.save(cita);
     }
+
 
     //@PutMapping("api/citas/me")
 
