@@ -25,9 +25,6 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserServiceInterface userService;
-    @Autowired
-    private AppUserRepository appUserRepository;
-
 
     @PostMapping("/api/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -96,18 +93,10 @@ public class UserController {
 
     //CRUD para encargado
     @PreAuthorize("hasRole('ENCARGADO')")
-    @GetMapping("api/users/me/encargado") //funcion solo disponible al encargado que le da la lista de clientes
+    @GetMapping("api/users/me/encargado")
     @ResponseStatus(HttpStatus.OK)
     public List<ProfileResponse> getClientes(@CookieValue(value = "session", required = true) String session) {
-        List<AppUser> clientes = appUserRepository.findByRole(Role.CLIENTE);
-
-        if (clientes == null || clientes.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay clientes registrados.");
-        }
-
-        return clientes.stream()
-                .map(userService::profile)
-                .toList();
+        return userService.getAllClientes();
     }
 
     //@PreAuthorize("hasRole('ENCARGADO')")

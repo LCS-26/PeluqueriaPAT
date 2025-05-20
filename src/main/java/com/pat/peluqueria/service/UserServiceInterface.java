@@ -8,6 +8,8 @@ import com.pat.peluqueria.model.ProfileResponse;
 import com.pat.peluqueria.model.RegisterRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UserServiceInterface {
 
@@ -18,6 +20,8 @@ public interface UserServiceInterface {
      * si las credenciales son incorrectas, retorna null
      */
     Token login(String email, String password);
+
+    List<ProfileResponse> getAllClientes();
 
     /**
      * @param tokenId token de la sesión actual del usuario

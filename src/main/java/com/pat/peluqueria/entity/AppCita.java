@@ -2,6 +2,9 @@ package com.pat.peluqueria.entity;
 
 import com.pat.peluqueria.model.Dia;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 
@@ -16,10 +19,12 @@ public class AppCita {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
+    @NotNull
     private AppUser cliente;
 
     @ManyToOne
     @JoinColumn(name = "peluquero_id", nullable = false)
+    @NotNull
     private AppUser peluquero;
 
     /*@Column(nullable = false)
@@ -27,9 +32,11 @@ public class AppCita {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Dia dia;
 
     @Column(nullable = false)
+    @NotBlank
     private String hora;
 
     // Getters y setters

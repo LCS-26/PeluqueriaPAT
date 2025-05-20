@@ -6,13 +6,16 @@ import com.pat.peluqueria.entity.Token;
 import com.pat.peluqueria.model.ProfileRequest;
 import com.pat.peluqueria.model.ProfileResponse;
 import com.pat.peluqueria.model.RegisterRequest;
+import com.pat.peluqueria.model.Role;
 import com.pat.peluqueria.repository.AppUserRepository;
 import com.pat.peluqueria.repository.TokenRepository;
 import com.pat.peluqueria.util.Hashing;
 import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -121,6 +124,19 @@ public class UserService implements UserServiceInterface {
         if (appUser == null) return;
 
         appUserRepository.delete(appUser);
+    }
+
+    @Override
+    public List<ProfileResponse> getAllClientes() {
+        List<AppUser> clientes = appUserRepository.findByRole(Role.CLIENTE);
+
+        if (clientes == null || clientes.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay clientes registrados.");
+        }
+
+        return clientes.stream()
+                .map(this::profile)
+                .toList();
     }
 
     public List<AppCita> getCitasporId(Long Id) {

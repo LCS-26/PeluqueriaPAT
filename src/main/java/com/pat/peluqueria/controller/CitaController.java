@@ -48,7 +48,7 @@ public class CitaController {
 
     @PostMapping("/api/citas/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservaResponse reserva(@RequestBody RegisterReserva reserva) {
+    public ReservaResponse reserva(@RequestBody @Valid RegisterReserva reserva) {
         return citaService.crearCita(reserva);
     }
 
