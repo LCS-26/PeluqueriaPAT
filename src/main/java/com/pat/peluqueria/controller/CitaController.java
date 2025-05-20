@@ -23,95 +23,59 @@ import java.util.Optional;
 
 @RestController
 public class CitaController {
+
     @Autowired
-    AppUserRepository appUserRepository;
-    @Autowired
-    AppCitaRepository appCitaRepository;
-    @Autowired
-    CitaService citaService;
+    private CitaService citaService;
 
     @GetMapping("api/citas/peluquero/{id_peluquero}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AppCita>> getCitasPorPeluquero(@PathVariable("id_peluquero") Long peluqueroId, @CookieValue(value = "session", required = true) String session) {
-        Optional<AppUser> peluquero = appUserRepository.findById(peluqueroId);
-        if (peluquero.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        List<AppCita> citas = appCitaRepository.findByPeluquero(peluquero.get());
-        if(citas.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(citas);
+    public ResponseEntity<List<AppCita>> getCitasPorPeluquero(@PathVariable Long id_peluquero) {
+        List<AppCita> citas = citaService.obtenerCitasPorPeluquero(id_peluquero);
+        return citas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(citas);
     }
 
     @GetMapping("/api/citas/cliente/{id_cliente}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AppCita>> getCitasPorCliente(@PathVariable("id_cliente") Long clienteId, @CookieValue(value = "session", required = true) String session) {
-        Optional<AppUser> cliente = appUserRepository.findById(clienteId);
-        if (cliente.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        List<AppCita> citas = appCitaRepository.findByCliente(cliente.get());
-        if (citas.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(citas);
+    public ResponseEntity<List<AppCita>> getCitasPorCliente(@PathVariable Long id_cliente) {
+        List<AppCita> citas = citaService.obtenerCitasPorCliente(id_cliente);
+        return citas.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(citas);
     }
 
     @GetMapping("api/citas/me/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AppCita> getCitaById(@PathVariable("id") Long id, @CookieValue(value = "session", required = true) String session) {
-        Optional<AppCita> optionalCita = appCitaRepository.findById(id);
-
-        if (optionalCita.isPresent()) {
-            return ResponseEntity.ok(optionalCita.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<AppCita> getCitaById(@PathVariable Long id) {
+        return citaService.obtenerCitaPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/api/citas/me")
     @ResponseStatus(HttpStatus.CREATED)
-    public void reserva(@RequestBody RegisterReserva reserva) {
-        Optional<AppUser> peluquero = appUserRepository.findById(reserva.peluqueroId());
-        Optional<AppUser> cliente = appUserRepository.findById(reserva.clienteId());
-
-        if (peluquero.isEmpty() || cliente.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente o peluquero no encontrado");
-        }
-
-        AppCita cita = new AppCita();
-        cita.setDia(Dia.valueOf(reserva.dia()));
-        cita.setHora(reserva.hora());
-        cita.setPeluquero(peluquero.get());
-        cita.setCliente(cliente.get());
-
-        appCitaRepository.save(cita);
+    public ReservaResponse reserva(@RequestBody RegisterReserva reserva) {
+        return citaService.crearCita(reserva);
     }
 
+    @PutMapping("/api/citas/me")
+    public ResponseEntity<AppCita> modificarCita(@RequestBody ModificarReserva nuevaReserva) {
+        AppCita modificada = citaService.modificarCita(nuevaReserva);
+        return ResponseEntity.ok(modificada);
+    }
 
-    //@PutMapping("api/citas/me")
-
-    //@DeleteMapping("api/citas/me")
+    @DeleteMapping("/api/citas/me/{id_cita}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void borrarCita(@PathVariable Long id_cita) {
+        citaService.borrarCita(id_cita);
+    }
 
     @GetMapping("/api/citas/peluqueros")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AppUser>> getPeluqueros(@CookieValue(value = "session", required = true) String session) {
-        List<AppUser> peluqueros = appUserRepository.findByRole(Role.PELUQUERO);
-        return ResponseEntity.ok(peluqueros);
+    public ResponseEntity<List<AppUser>> getPeluqueros() {
+        return ResponseEntity.ok(citaService.obtenerPeluqueros());
     }
 
     @PreAuthorize("hasRole('ENCARGADO')")
     @GetMapping("api/citas/me/encargado")
-    @ResponseStatus(HttpStatus.OK)
-    public List<AppCita> getCitas(@CookieValue(value = "session", required = true) String session){
-        List<AppCita> citas = (List<AppCita>) appCitaRepository.findAll(); //transformo a citas
-        if(citas.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No hay citas programadas");
+    public List<AppCita> getCitas() {
+        List<AppCita> citas = citaService.obtenerTodasLasCitas();
+        if (citas.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay citas programadas");
         }
         return citas;
     }
-
-
-
 }
