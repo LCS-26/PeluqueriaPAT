@@ -23,6 +23,8 @@ public interface UserServiceInterface {
 
     List<ProfileResponse> getAllClientes();
 
+    ProfileResponse updateUsuarioPorId(Long id, ProfileRequest profileRequest);
+
     /**
      * @param tokenId token de la sesión actual del usuario
      * @return si la sesión está creada (el token existe en BD), retorna el usuario asociado a dicha sesión;

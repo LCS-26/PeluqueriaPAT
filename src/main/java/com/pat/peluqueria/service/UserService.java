@@ -139,6 +139,14 @@ public class UserService implements UserServiceInterface {
                 .toList();
     }
 
+    @Override
+    public ProfileResponse updateUsuarioPorId(Long id, ProfileRequest profileRequest) {
+        AppUser user = appUserRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+
+        return profile(user, profileRequest); // reutilizas tu método ya existente
+    }
+
     public List<AppCita> getCitasporId(Long Id) {
         //return appUserRepository.findByUserIdOrPeluqueroId(Id, Id);
         return null;

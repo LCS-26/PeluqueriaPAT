@@ -99,20 +99,11 @@ public class UserController {
         return userService.getAllClientes();
     }
 
-    //@PreAuthorize("hasRole('ENCARGADO')")
-    //@PutMapping("api/users/me/email/{email}")
     @PreAuthorize("hasRole('ENCARGADO')")
     @PutMapping("/api/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProfileResponse updateUsuarioPorId(@PathVariable Long id, @RequestBody ProfileRequest profile) {
-        Optional<AppUser> usuarioOptional = appUserRepository.findById(id);
-
-        if (usuarioOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado");
-        }
-
-        AppUser cliente = usuarioOptional.get();
-        return userService.profile(cliente, profile); // usa el mismo método de actualización
+        return userService.updateUsuarioPorId(id, profile);
     }
 
 }
