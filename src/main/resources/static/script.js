@@ -175,12 +175,28 @@ function activarSeleccion() {
     });
 }
 
-function editar_informacion_personal(){
-
+function editar_informacion_personal() {
+  // TODO Mostrar formulario con los datos actuales
+  // Enviar PUT a `/api/users/me`
 }
 
-function editar_cita(){
-    
+async function editar_cita(idCita, nuevaHora, nuevoDia) {
+  try {
+    const res = await fetch(`/api/citas/${idCita}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ hora: nuevaHora, dia: nuevoDia })
+    });
+
+    if (res.ok) {
+      alert("Cita actualizada");
+    } else {
+      alert("Error al actualizar cita");
+    }
+  } catch (error) {
+    console.error("Error actualizando la cita:", error);
+  }
 }
 
 async function irAPagina(event, url, rolRequerido) {
@@ -352,5 +368,26 @@ async function cargarCitasDeCliente(idCliente) {
   } catch (error) {
     console.error("Error cargando citas del cliente:", error);
   }
+
+}
+
+async function actualizar_cita(){
+    try{
+
+    } catch (error){
+        console.log("Error actualizando la cita", error);
+    }
+
+}
+
+async function actualizar_informacion_personal(){
+    await cargarPeluqueros();
+    await cargarClientes();
+    try{
+
+
+    } catch (error){
+        console.error("Error actualizando informacion", error);
+    }
 }
 

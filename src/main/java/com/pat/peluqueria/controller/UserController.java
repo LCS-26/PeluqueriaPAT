@@ -2,10 +2,8 @@ package com.pat.peluqueria.controller;
 
 import com.pat.peluqueria.entity.AppUser;
 import com.pat.peluqueria.entity.Token;
-import com.pat.peluqueria.model.LoginRequest;
-import com.pat.peluqueria.model.ProfileRequest;
-import com.pat.peluqueria.model.ProfileResponse;
-import com.pat.peluqueria.model.RegisterRequest;
+import com.pat.peluqueria.model.*;
+import com.pat.peluqueria.repository.AppUserRepository;
 import com.pat.peluqueria.service.UserServiceInterface;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +12,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Optional;
+
 
 
 @RestController
 public class UserController {
     @Autowired
     UserServiceInterface userService;
+    @Autowired
+    private AppUserRepository appUserRepository;
 
 
     @PostMapping("/api/users")
@@ -88,4 +93,26 @@ public class UserController {
         if (appUser == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         userService.delete(appUser);
     }
+
+    //CRUD para encargado
+    @PreAuthorize("hasRole('ENCARGADO')")
+    @GetMapping("api/users/me/encargado") //funcion solo disponible al encargado que le da la lista de clientes
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProfileResponse> getClientes(@CookieValue(value = "session", required = true) String session) {
+        List<AppUser> clientes = appUserRepository.findByRole(Role.CLIENTE);
+
+        if (clientes == null || clientes.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay clientes registrados.");
+        }
+
+        return clientes.stream()
+                .map(userService::profile)
+                .toList();
+    }
+
+    //@PreAuthorize("hasRole('ENCARGADO')")
+    //@PutMapping("api/users/me/email/{email}")
+
+
+
 }
