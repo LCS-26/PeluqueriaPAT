@@ -107,4 +107,8 @@ public class AppUser implements UserDetails{
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getName(){
+        return name;
+    }
 }

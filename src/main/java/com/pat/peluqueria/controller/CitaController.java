@@ -76,4 +76,12 @@ public class CitaController {
     //@PutMapping("api/citas/me")
 
     //@DeleteMapping("api/citas/me")
+
+    @GetMapping("/api/citas/peluqueros")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<AppUser>> getPeluqueros(@CookieValue(value = "session", required = true) String session) {
+        List<AppUser> peluqueros = appUserRepository.findByRole(Role.PELUQUERO);
+        return ResponseEntity.ok(peluqueros);
+    }
+
 }

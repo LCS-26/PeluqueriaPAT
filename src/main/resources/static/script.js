@@ -214,7 +214,7 @@ async function cargarPeluqueros() {
     peluqueros.forEach(peluquero => {
       const option = document.createElement("option");
       option.value = peluquero.id;
-      option.textContent = peluquero.nombre;
+      option.textContent = peluquero.name;
       select.appendChild(option);
     });
   } catch (error) {
@@ -224,5 +224,5 @@ async function cargarPeluqueros() {
 
 async function inicializarPagina() {
   await cargarInfoClienteDesdeSession(); // ✅ rellena nombre/email desde sesión
-  //await cargarPeluqueros();              // ✅ carga select
+  await cargarPeluqueros();              // ✅ carga select
 }
